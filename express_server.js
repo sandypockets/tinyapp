@@ -11,6 +11,20 @@ const urlDatabase = {
   "9sm5xK": "http://www.google.com"
 };
 
+// Helper Functions
+function generateRandomString() {
+  const randomString = Math.random().toString(26).substring(2, 8);
+  return randomString;
+};
+  
+const addNewURL = (longURL) => {
+  const shortURL = generateRandomString();
+  const newShortURL = longURL
+  urlDatabase[shortURL] = newShortURL;
+  return shortURL;
+};
+
+// ENDPOINTS or ROUTES
 app.get("/", (req, res) => {
   res.send("Hello!");
 });
@@ -25,8 +39,8 @@ app.get("/urls", (req, res) => {
 });
 
 app.post("/urls", (req, res) => {
-  console.log(req.body);  // Log the POST request body to the console
-  res.send("Ok");         // Respond with 'Ok' (we will replace this)
+  const newShortURL = addNewURL(req.body.longURL);
+  res.redirect(`/urls/${newShortURL}`);
 });
 
 app.get("/urls/new", (req, res) => {
@@ -45,9 +59,3 @@ app.get("/hello", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
 });
-
-// Helper Functions
-function generateRandomString() {
-const randomString = Math.random().toString(26).substring(2, 8);
-return randomString;
-};
