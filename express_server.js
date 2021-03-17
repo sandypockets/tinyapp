@@ -1,4 +1,5 @@
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const app = express();
 const PORT = 8080;
 const bodyParser = require('body-parser');
@@ -7,6 +8,7 @@ const bodyParser = require('body-parser');
 const {generateRandomString, addNewURL, editURL, urlDatabase} = require('./helpers')
 
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(cookieParser());
 app.set("view engine", "ejs");
 
 
@@ -42,6 +44,11 @@ app.get("/urls/:shortURL/edit", (req, res) => {
   res.render("urls_show", templateVars);
 });
 
+// Display login form
+app.get("/login", (req, res) => {
+  res.render("login");
+});
+
 // ROUTES - POST
 // Create new shortURL
 app.post("/urls", (req, res) => {
@@ -71,6 +78,13 @@ app.post("/urls/:shortURL/edit", (req, res) => {
   console.log("shortURL", shortURL);
   console.log("req.body", req.body);
   res.redirect(`/urls/${shortURL}/edit`);
+});
+
+// Login and set cookie
+app.post("/login", (req, res) => {
+  const username = req.body.username;
+  res.cookie(username, 'cookie1');
+  res.redirect('/urls');
 });
 
 // Server listening
