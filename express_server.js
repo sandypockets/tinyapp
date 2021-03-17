@@ -4,7 +4,7 @@ const PORT = 8080;
 const bodyParser = require('body-parser');
 
 
-const {generateRandomString, addNewURL, editURL, updatePath, updateLongURL, urlDatabase} = require('./helpers')
+const {generateRandomString, addNewURL, editURL, urlDatabase} = require('./helpers')
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
@@ -42,13 +42,6 @@ app.get("/urls/:shortURL/edit", (req, res) => {
   res.render("urls_show", templateVars);
 });
 
-// ?????
-app.get("/u/:shortURL", (req, res) => {
-  const longURL = urlDatabase[req.params.shortURL];
-  res.render("urls_show");
-});
-
-
 // ROUTES - POST
 // Create new shortURL
 app.post("/urls", (req, res) => {
@@ -79,24 +72,6 @@ app.post("/urls/:shortURL/edit", (req, res) => {
   console.log("req.body", req.body);
   res.redirect(`/urls/${shortURL}/edit`);
 });
-
-// Reassign shortURL - V2
-/* app.post('/urls/:shortURL/edit', (req, res) => {
-  // extract the quote id form the path
-  // req.params
-  const id = req.params.shortURL;
-  console.log("ID: ", id);
-  // extract the content for the form
-  // req.body
-  const longURL = req.body.shortURL;
-  console.log("longURL: ", longURL);
-  console.log("req.body:", req.body);
-  //console.log("req", req);
-  updateLongURL(id, longURL);
-  // redirect to /quotes => no ejs, no template vars
-  res.redirect(`/urls/${id}`);
-}); */
-
 
 // Server listening
 app.listen(PORT, () => {

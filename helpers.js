@@ -1,5 +1,3 @@
-//const urlDatabase = require('./express_server');
-
 // Database of existing URLs
 const urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
@@ -25,18 +23,5 @@ const editURL = (shortURL, longURL) => {
   urlDatabase[shortURL] = newShortURL;
   return shortURL;
 };
-// TESTING
 
-// Probably will not use this
-const updatePath = (longURL) => {
-  const id = urlDatabase.id;
-  console.log(id);
-  urlDatabase[id] = urlDatabase[id[longURL]];
-  console.log(urlDatabase[id])
-};
-
-const updateLongURL = (shortURL, longURL) => {
-  return urlDatabase[shortURL].longURL = longURL;
-};
-
-module.exports = {urlDatabase, generateRandomString, addNewURL, editURL, updatePath, updateLongURL};
+module.exports = {urlDatabase, generateRandomString, addNewURL, editURL};
